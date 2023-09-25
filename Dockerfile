@@ -15,8 +15,8 @@ RUN wget https://docs.broadcom.com/docs-and-downloads/host-bus-adapters/host-bus
 
 # Final stage
 FROM ubuntu:focal
-LABEL org.opencontainers.image.source=https://github.com/octocat/my-repo
-LABEL org.opencontainers.image.description="My container image"
+LABEL org.opencontainers.image.source=https://github.com/jvaldron/docker-homelab-tools
+LABEL org.opencontainers.image.description="Container with tools used to manage my homelab"
 LABEL org.opencontainers.image.licenses=MIT
 ENV PATH="$PATH:/opt/MegaRAID/perccli/"
 WORKDIR /tmp/
