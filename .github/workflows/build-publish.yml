@@ -1,0 +1,35 @@
+---
+name: Build Container Image CI
+
+on:
+  push:
+    branches: [ master ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      REGISTRY: jvaldron/docker-perccli
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build the tagged Docker image
+        run: docker build . --file Dockerfile -t ${REGISTRY}:${{steps.vars.outputs.tag}} -t ${REGISTRY}:latest
+
+      - name: Login with Github Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish latest tag to Github Container registry
+        run: docker push ${REGISTRY}:latest
+
+      - name: Publish versioned tag to Github Container registry
+        run: docker push ${REGISTRY}:${{steps.vars.outputs.tag}}
