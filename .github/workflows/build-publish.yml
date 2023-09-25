@@ -13,10 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      REGISTRY: jvaldron/docker-perccli
+      REGISTRY: jvaldron/docker-homelab-tools
 
     steps:
       - uses: actions/checkout@v1
+
+      - name: Get the version
+        id: vars
+        run: echo ::set-output name=tag::$(echo ${GITHUB_REF##*/})
 
       - name: Build the tagged Docker image
         run: docker build . --file Dockerfile -t ${REGISTRY}:${{steps.vars.outputs.tag}} -t ${REGISTRY}:latest
