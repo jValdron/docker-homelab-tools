@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      REGISTRY: jvaldron/docker-homelab-tools
+      REGISTRY: ghcr.io/jvaldron/docker-homelab-tools
 
     steps:
       - uses: actions/checkout@v1
