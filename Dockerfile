@@ -27,6 +27,7 @@ RUN dpkg -i perccli_007.1910.0000.0000_all.deb \
     && rm perccli_007.1910.0000.0000_all.deb
 
 COPY --from=sas2flash /tmp/Installer_P20_for_Linux/sas2flash_linux_i686_x86-64_rel/sas2flash /usr/local/bin/sas2flash
+RUN chmod +x /usr/local/bin/sas2flash
 
 # Install additional tools
 RUN apt update && \
