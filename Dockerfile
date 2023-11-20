@@ -13,6 +13,17 @@ FROM getter AS sas2flash
 RUN wget https://docs.broadcom.com/docs-and-downloads/host-bus-adapters/host-bus-adapters-common-files/sas_sata_6g_p20/Installer_P20_for_Linux.zip && \
     unzip Installer_P20_for_Linux.zip
 
+# storcli
+FROM centos:7 AS storcli
+ARG STORCLI_VERSION=007.2705.0000.0000
+RUN yum install -y wget unzip && \
+    wget https://docs.broadcom.com/docs-and-downloads/${STORCLI_VERSION}_storcli_rel.zip && \
+    unzip ${STORCLI_VERSION}_storcli_rel.zip && \
+    cd storcli_rel && \
+    unzip Unified_storcli_all_os.zip && \
+    cd Unified_storcli_all_os/Linux/ && \
+    rpm -ivh storcli-${STORCLI_VERSION}-1.noarch.rpm
+
 # Final stage
 FROM ubuntu:focal
 LABEL org.opencontainers.image.source=https://github.com/jvaldron/docker-homelab-tools
@@ -28,6 +39,10 @@ RUN dpkg -i perccli_007.1910.0000.0000_all.deb \
 
 COPY --from=sas2flash /tmp/Installer_P20_for_Linux/sas2flash_linux_i686_x86-64_rel/sas2flash /usr/local/bin/sas2flash
 RUN chmod +x /usr/local/bin/sas2flash
+
+COPY --from=storcli /opt/MegaRAID/storcli/storcli64 /opt/MegaRAID/storcli/storcli64
+RUN ln -s /opt/MegaRAID/storcli/storcli64 /usr/local/bin/storcli64
+RUN chmod +x /opt/MegaRAID/storcli/storcli64
 
 # Install additional tools
 RUN apt update && \
