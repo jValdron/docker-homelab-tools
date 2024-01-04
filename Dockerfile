@@ -46,7 +46,7 @@ RUN chmod +x /opt/MegaRAID/storcli/storcli64
 
 # Install additional tools
 RUN apt update && \
-    apt install libncurses5 pciutils -y
+    apt install libncurses5 pciutils smartmontools -y
 
 # Setup fish
 ARG DEBIAN_FRONTEND=noninteractive
