@@ -14,7 +14,7 @@ RUN wget https://docs.broadcom.com/docs-and-downloads/host-bus-adapters/host-bus
     unzip Installer_P20_for_Linux.zip
 
 # storcli
-FROM centos:7 AS storcli
+FROM centos:8 AS storcli
 ARG STORCLI_VERSION=007.2705.0000.0000
 RUN yum install -y wget unzip && \
     wget https://docs.broadcom.com/docs-and-downloads/${STORCLI_VERSION}_storcli_rel.zip && \
